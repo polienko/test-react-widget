@@ -1,6 +1,3 @@
-// NOTE: ToncastBettingWidget must be rendered inside a TonConnectUIProvider.
-// Theme is applied via widget.cssVars in the config below.
-// See https://docs.ton.org/develop/dapps/ton-connect/web for setup instructions.
 import { useEffect, useRef } from 'react';
 import { useTonConnectUI } from '@tonconnect/ui-react';
 import ToncastWidgetLoader from '@toncast/widget-loader';
@@ -11,8 +8,6 @@ import { TonConnectUIProvider } from '@tonconnect/ui-react'; // это приш�
 
 function ToncastBettingWidget() {
 
-  //return <h1>TEST</h1>
-  
   const [tonconnect] = useTonConnectUI();
   const ref = useRef<HTMLDivElement>(null);
   const widgetRef = useRef<InstanceType<Awaited<ReturnType<typeof ToncastWidgetLoader.load>>> | null>(null);
@@ -50,8 +45,7 @@ function ToncastBettingWidget() {
     return () => { active = false; widgetRef.current?.dispose(); };
   }, [tonconnect]);
 
-  //return <div ref={ref} style={{ width: '100%' }} />;
-  
+
   return (
     <>
       <h1>text before</h1>
@@ -65,9 +59,6 @@ function ToncastBettingWidget() {
 
 
 
-
-
-// пришлось обернуть виджет
 
 function App() {
   return (
