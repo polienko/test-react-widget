@@ -5,11 +5,15 @@ import { useEffect, useRef } from 'react';
 import { useTonConnectUI } from '@tonconnect/ui-react';
 import ToncastWidgetLoader from '@toncast/widget-loader';
 
+
+import { TonConnectUIProvider } from '@tonconnect/ui-react'; // это пришлось добавить
+
+
 function ToncastBettingWidget() {
 
-  return <h1>TEST2</h1>
+  //return <h1>TEST</h1>
   
-    const [tonconnect] = useTonConnectUI();
+  const [tonconnect] = useTonConnectUI();
   const ref = useRef<HTMLDivElement>(null);
   const widgetRef = useRef<InstanceType<Awaited<ReturnType<typeof ToncastWidgetLoader.load>>> | null>(null);
 
@@ -46,12 +50,35 @@ function ToncastBettingWidget() {
     return () => { active = false; widgetRef.current?.dispose(); };
   }, [tonconnect]);
 
-  return <div ref={ref} style={{ width: '100%' }} />;
+  //return <div ref={ref} style={{ width: '100%' }} />;
+  
+  return (
+    <>
+      <h1>text before</h1>
+      <div ref={ref} style={{ width: '100%', height: '500px' }} />
+	  <h1>text after</h1>
+    </>
+  );
 }
 
-export default ToncastBettingWidget;
 
 
 
 
 
+
+// пришлось обернуть виджет
+
+function App() {
+  return (
+    <TonConnectUIProvider 
+      manifestUrl="https://polienko.github.io/test-react-widget/tonconnect-manifest.json"
+    >
+      <ToncastBettingWidget />
+    </TonConnectUIProvider>
+  );
+}
+
+
+
+export default App;

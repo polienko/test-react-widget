@@ -6,11 +6,10 @@
   "homepage": "https://polienko.github.io/test-react-widget",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
+    "build": "vite build --config vite.config.js",
+    "build:github": "vite build --config vite.github.config.js",
     "preview": "vite preview",
-	"predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build:github && gh-pages -d dist"
   },
   "dependencies": {
     "@toncast/widget-loader": "^0.0.5",
