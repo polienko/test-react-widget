@@ -1,0 +1,57 @@
+// NOTE: ToncastBettingWidget must be rendered inside a TonConnectUIProvider.
+// Theme is applied via widget.cssVars in the config below.
+// See https://docs.ton.org/develop/dapps/ton-connect/web for setup instructions.
+import { useEffect, useRef } from 'react';
+import { useTonConnectUI } from '@tonconnect/ui-react';
+import ToncastWidgetLoader from '@toncast/widget-loader';
+
+function ToncastBettingWidget() {
+
+  return <h1>TEST2</h1>
+  
+    const [tonconnect] = useTonConnectUI();
+  const ref = useRef<HTMLDivElement>(null);
+  const widgetRef = useRef<InstanceType<Awaited<ReturnType<typeof ToncastWidgetLoader.load>>> | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    ToncastWidgetLoader.load()
+      .then((Widget) => {
+        if (!active || !ref.current) return;
+        widgetRef.current = new Widget({
+          tonconnect: { type: 'integrated', instance: tonconnect },
+        widget: {
+                "language": "en",
+                "theme": "dark",
+                "cssVars": {
+                        "radius": "24px",
+                        "density": "comfortable"
+                },
+                "layout": {
+                        "grid": {
+                                "mobile": 1,
+                                "tablet": 3,
+                                "desktop": 4
+                        }
+                },
+                "referral": {
+                        "address": "UQCNIc6wrgq_z4CrrHlpqgyymBnixFAmUWgg7XK_xxpDy-Ve",
+                        "pct": 7
+                }
+        },
+        });
+        widgetRef.current.mount(ref.current);
+      })
+      .catch((err) => console.error('[ToncastWidget] load failed:', err));
+    return () => { active = false; widgetRef.current?.dispose(); };
+  }, [tonconnect]);
+
+  return <div ref={ref} style={{ width: '100%' }} />;
+}
+
+export default ToncastBettingWidget;
+
+
+
+
+
